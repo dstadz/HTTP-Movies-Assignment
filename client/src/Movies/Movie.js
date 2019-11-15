@@ -1,11 +1,13 @@
-import React from "react";
+import React, {setState} from "react";
 import axios from "axios";
 import MovieCard from "./MovieCard";
+import UpdateForm from './UpdateForm'
 export default class Movie extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movie: null
+      movie: null,
+      updateClicked: false
     };
   }
 
@@ -31,6 +33,11 @@ export default class Movie extends React.Component {
     addToSavedList(this.state.movie);
   };
 
+  updateMovie = () => {
+    console.log(this.state)
+    this.setState({updateClicked: !this.state.updateClicked})
+  }
+
   render() {
     if (!this.state.movie) {
       return <div>Loading movie information...</div>;
@@ -39,9 +46,12 @@ export default class Movie extends React.Component {
     return (
       <div className="save-wrapper">
         <MovieCard movie={this.state.movie} />
-        <div className="save-button" onClick={this.saveMovie}>
-          Save
-        </div>
+        <div className="save-button" onClick={this.saveMovie}>Save</div>
+        <div className="update-button" onClick={this.updateMovie}>Update</div>
+        {this.state.updateClicked
+        ?<UpdateForm />
+        :<div>no up </div>
+        }
       </div>
     );
   }
